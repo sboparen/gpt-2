@@ -49,22 +49,25 @@ def interact_model(
         saver.restore(sess, ckpt)
 
         chatlog = ''
-        userprompt = 'user> '
-        itsprompt = 'deepfake> '
+        userprompt = input('Your name: ') + ': '
+        itsprompt = 'Deepfake: '
         while True:
             chatlog += userprompt + input(userprompt) + '\n'
             chatlog += itsprompt
             context_tokens = enc.encode(chatlog)
-            generated = 0
-            for _ in range(nsamples // batch_size):
-                out = sess.run(output, feed_dict={
-                    context: [context_tokens for _ in range(batch_size)]
-                })[:, len(context_tokens):]
-                for i in range(batch_size):
-                    generated += 1
-                    text = enc.decode(out[i]).split('\n')[0]
-                    chatlog += text + '\n'
-                    print(itsprompt + text)
+            fulltext = ''
+            while True:
+                out, = sess.run(output, feed_dict={
+                    context: [context_tokens]})[:, len(context_tokens):]
+                text = enc.decode(out)
+                if '\n' in text:
+                    text = text.split('\n')[0] + '\n'
+                    fulltext += text
+                    break
+                else:
+                    fulltext += text
+            chatlog += fulltext
+            print(itsprompt + fulltext, end='')
 
 if __name__ == '__main__':
     fire.Fire(interact_model)
