@@ -68,11 +68,16 @@ to override the standard stream settings in UTF-8 mode.
 
 To generate unconditional samples from the small model:
 ```
-python3 src/generate_unconditional_samples.py | tee samples
+python3 src/generate_unconditional_samples.py | tee /tmp/samples
 ```
 There are various flags for controlling the samples:
 ```
-python3 src/generate_unconditional_samples.py --top_k 40 --temperature 0.7 | tee samples
+python3 src/generate_unconditional_samples.py --top_k 40 --temperature 0.7 | tee /tmp/samples
+```
+
+To check flag descriptions, use:
+```
+python3 src/generate_unconditional_samples.py -- --help
 ```
 
 ### Conditional sample generation
@@ -80,6 +85,11 @@ python3 src/generate_unconditional_samples.py --top_k 40 --temperature 0.7 | tee
 To give the model custom prompts, you can use:
 ```
 python3 src/interactive_conditional_samples.py --top_k 40
+```
+
+To check flag descriptions, use:
+```
+python3 src/interactive_conditional_samples.py -- --help
 ```
 
 ## GPT-2 samples
@@ -91,8 +101,23 @@ While we have not yet released GPT-2 itself, you can see some samples from it in
 We show unconditional samples with default settings (temperature 1 and no truncation), with temperature 0.7, and with truncation with top_k 40.
 We show conditional samples, with contexts drawn from `WebText`'s test set, with default settings (temperature 1 and no truncation), with temperature 0.7, and with truncation with top_k 40.
 
+## Citation
+
+Please use the following bibtex entry:
+```
+@article{radford2019language,
+  title={Language Models are Unsupervised Multitask Learners},
+  author={Radford, Alec and Wu, Jeff and Child, Rewon and Luan, David and Amodei, Dario and Sutskever, Ilya},
+  year={2019}
+}
+```
+
 ## Future work
 
 We may release code for evaluating the models on various benchmarks.
 
 We are still considering release of the larger models.
+
+## License
+
+MIT
